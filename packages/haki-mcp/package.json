@@ -1,0 +1,19 @@
+{
+  "name": "haki-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Haki Legal Assistant",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "@pinecone-database/pinecone": "^2.0.0",
+    "@langchain/openai": "^0.0.14",
+    "@langchain/pinecone": "^0.0.3",
+    "@langchain/core": "^0.1.28",
+    "zod": "^3.22.4",
+    "dotenv": "^16.4.1"
+  }
+}
