@@ -56,9 +56,13 @@ export default function MobileNav({
           />
         </svg>
       </button>
-      <h1 className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-center text-sm font-normal">
-        {title ?? localize('com_ui_new_chat')}
-      </h1>
+      <div className="flex flex-1 items-center justify-center gap-3 overflow-hidden">
+        <img src="/assets/logo.svg" alt="HAKI One Logo" className="h-9 w-9" />
+        <h1 className="text-center text-xl font-bold">
+          <span className="text-red-500">HAKI</span>
+          <span className="text-black dark:text-white"> One</span>
+        </h1>
+      </div>
       <button
         type="button"
         aria-label={localize('com_ui_new_chat')}

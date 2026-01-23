@@ -39,6 +39,15 @@ export default function Header() {
 
   return (
     <div className="via-presentation/70 md:from-presentation/80 md:via-presentation/50 2xl:from-presentation/0 absolute top-0 z-10 flex h-14 w-full items-center justify-between bg-gradient-to-b from-presentation to-transparent p-2 font-semibold text-text-primary 2xl:via-transparent">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+        <div className="flex items-center gap-3">
+          <img src="/assets/logo.svg" alt="HAKI One Logo" className="h-9 w-9" />
+          <h1 className="text-xl font-bold">
+            <span className="text-red-500">HAKI</span>
+            <span className="text-black dark:text-white"> One</span>
+          </h1>
+        </div>
+      </div>
       <div className="hide-scrollbar flex w-full items-center justify-between gap-2 overflow-x-auto">
         <div className="mx-1 flex items-center">
           <AnimatePresence initial={false}>
