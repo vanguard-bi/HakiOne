@@ -165,6 +165,9 @@ module.exports = {
       search,
       sortBy = 'updatedAt',
       sortDirection = 'desc',
+      model,
+      endpoint,
+      agent_id,
     } = {},
   ) => {
     const filters = [{ user }];
@@ -176,6 +179,16 @@ module.exports = {
 
     if (Array.isArray(tags) && tags.length > 0) {
       filters.push({ tags: { $in: tags } });
+    }
+
+    if (model) {
+      filters.push({ model });
+    }
+    if (endpoint) {
+      filters.push({ endpoint });
+    }
+    if (agent_id) {
+      filters.push({ agent_id });
     }
 
     filters.push({ $or: [{ expiredAt: null }, { expiredAt: { $exists: false } }] });

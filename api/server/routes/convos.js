@@ -40,6 +40,12 @@ router.get('/', async (req, res) => {
     tags = Array.isArray(req.query.tags) ? req.query.tags : [req.query.tags];
   }
 
+  let filter = {};
+  if (process.env.CONFIG_PATH && process.env.CONFIG_PATH.endsWith('haki-legal.yaml')) {
+    filter.agent_id = 'agent_Dz9DK5ALMkuAMwvdEbqAN';
+    filter.endpoint = 'agents';
+  }
+
   try {
     const result = await getConvosByCursor(req.user.id, {
       cursor,
@@ -49,6 +55,7 @@ router.get('/', async (req, res) => {
       search,
       sortBy,
       sortDirection,
+      ...filter,
     });
     res.status(200).json(result);
   } catch (error) {
