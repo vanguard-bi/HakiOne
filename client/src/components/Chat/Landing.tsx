@@ -41,6 +41,12 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
   const [contentHeight, setContentHeight] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // 1. Calculate First Name once here.
+  // This ensures we use the same "First Name Only" logic for both Custom and Default greetings.
+  const firstName = useMemo(() => {
+    return user?.name ? user.name.trim().split(' ')[0] : '';
+  }, [user?.name]);
+
   const endpointType = useMemo(() => {
     let ep = conversation?.endpoint ?? '';
     if (ep === EModelEndpoint.azureOpenAI) {
@@ -65,41 +71,40 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
   const description = (entity?.description || conversation?.greeting) ?? '';
 
   const getGreeting = useCallback(() => {
-    if (typeof startupConfig?.interface?.customWelcome === 'string') {
-      const customWelcome = startupConfig.interface.customWelcome;
-      // Replace {{user.name}} with actual user name if available
-      if (user?.name && customWelcome.includes('{{user.name}}')) {
-        return customWelcome.replace(/{{user.name}}/g, user.name);
+    const customWelcome = startupConfig?.interface?.customWelcome;
+
+    // --- Scenario A: Custom Welcome Message ---
+    if (typeof customWelcome === 'string') {
+      if (firstName && customWelcome.includes('{{user.name}}')) {
+        return customWelcome.replace(/{{user.name}}/g, firstName);
       }
       return customWelcome;
     }
 
+    // --- Scenario B: Default Time-based Greeting ---
     const now = new Date();
     const hours = now.getHours();
-
     const dayOfWeek = now.getDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-    // Early morning (midnight to 4:59 AM)
+    let timeGreeting = '';
+
     if (hours >= 0 && hours < 5) {
-      return localize('com_ui_late_night');
+      timeGreeting = localize('com_ui_late_night');
+    } else if (hours < 12) {
+      timeGreeting = isWeekend
+        ? localize('com_ui_weekend_morning')
+        : localize('com_ui_good_morning');
+    } else if (hours < 17) {
+      timeGreeting = localize('com_ui_good_afternoon');
+    } else {
+      timeGreeting = localize('com_ui_good_evening');
     }
-    // Morning (6 AM to 11:59 AM)
-    else if (hours < 12) {
-      if (isWeekend) {
-        return localize('com_ui_weekend_morning');
-      }
-      return localize('com_ui_good_morning');
-    }
-    // Afternoon (12 PM to 4:59 PM)
-    else if (hours < 17) {
-      return localize('com_ui_good_afternoon');
-    }
-    // Evening (5 PM to 8:59 PM)
-    else {
-      return localize('com_ui_good_evening');
-    }
-  }, [localize, startupConfig?.interface?.customWelcome, user?.name]);
+
+    // Append first name to default greeting if available
+    return firstName ? `${timeGreeting}, ${firstName}` : timeGreeting;
+
+  }, [localize, startupConfig?.interface?.customWelcome, firstName]);
 
   const handleLineCountChange = useCallback((count: number) => {
     setTextHasMultipleLines(count > 1);
@@ -132,10 +137,8 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
     return margin;
   }, [lineCount, description, textHasMultipleLines, contentHeight]);
 
-  const greetingText =
-    typeof startupConfig?.interface?.customWelcome === 'string'
-      ? getGreeting()
-      : getGreeting() + (user?.name ? ', ' + user.name : '');
+  // 2. Simplified this variable. All logic is now inside getGreeting()
+  const greetingText = getGreeting();
 
   return (
     <div
@@ -184,7 +187,7 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
             </div>
           ) : (
             <SplitText
-              key={`split-text-${greetingText}${user?.name ? '-user' : ''}`}
+              key={`split-text-${greetingText}${firstName ? '-user' : ''}`}
               text={greetingText}
               className={`${getTextSizeClass(greetingText)} font-medium text-text-primary`}
               delay={50}
