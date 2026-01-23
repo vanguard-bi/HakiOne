@@ -790,6 +790,7 @@ export type TStartupConfig = {
   >;
   mcpPlaceholder?: string;
   conversationImportMaxFileSize?: number;
+  configPath?: string;
 };
 
 export enum OCRStrategy {
