@@ -21,7 +21,7 @@ export default function MobileNav({
   const conversation = useRecoilValue(store.conversationByIndex(0));
   const { title = 'New Chat' } = conversation || {};
   const { data: startupConfig } = useGetStartupConfig();
-  const suffix = startupConfig?.configPath === './haki-legal.yaml' ? 'Legal' : 'One';
+  const suffix = startupConfig?.configPath === './haki-legal.yaml' ? '' : 'One';
 
   return (
     <div className="bg-token-main-surface-primary sticky top-0 z-10 flex min-h-[40px] items-center justify-center bg-presentation pl-1 dark:text-white md:hidden">
@@ -60,10 +60,10 @@ export default function MobileNav({
         </svg>
       </button>
       <div className="flex flex-1 items-center justify-center gap-3 overflow-hidden">
-        <img src="/assets/logo.svg" alt="HAKI One Logo" className="h-9 w-9" />
+        <img src="/assets/logo.svg" alt="HAKI One Logo" className="h-6 w-6" />
         <h1 className="text-center text-xl">
-          <span className="text-red-500">Haki</span>
-          <span className="text-black dark:text-white"> {suffix}</span>
+          <span className="text-red-700">Haki</span>
+          {suffix && <span className="text-black dark:text-white"> {suffix}</span>}
         </h1>
       </div>
       <button

@@ -9,7 +9,7 @@ import { tools, handlers } from "./tools/index.js";
 // --- MCP Server Setup ---
 const server = new Server(
   {
-    name: "haki-mcp",
+    name: "haki-legal",
     version: "1.0.0",
   },
   {
@@ -41,7 +41,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Haki MCP Server running on stdio");
+  console.error("Haki Legal Server running on stdio");
 }
 
 main().catch((error) => {

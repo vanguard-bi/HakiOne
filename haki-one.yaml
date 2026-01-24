@@ -83,7 +83,7 @@ interface:
   endpointsMenu: true
   modelSelect: true
   parameters: true
-  sidePanel: false
+  sidePanel: true
   presets: true
   prompts:
     use: false
@@ -96,12 +96,12 @@ interface:
     share: false
     public: false
   peoplePicker:
-    users: true
-    groups: true
-    roles: true
+    users: false
+    groups: false
+    roles: false
   marketplace:
     use: false
-  fileCitations: true
+  fileCitations: false
   mcpServers:
     # MCP Servers configuration
     # Controls user permissions for MCP (Model Context Protocol) server management
@@ -213,11 +213,11 @@ actions:
 
 # Example MCP Servers Object Structure
 # mcpServers:
-#   haki-mcp:
+#   haki-legal:
 #     type: stdio
 #     command: node
 #     args:
-#       - packages/haki-mcp/src/index.js
+#       - packages/haki-legal/src/index.js
 #   everything:
 #     # type: sse # type can optionally be omitted
 #     url: http://localhost:3001/sse

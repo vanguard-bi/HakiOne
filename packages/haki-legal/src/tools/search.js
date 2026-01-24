@@ -1,7 +1,7 @@
 import { getPinecone, getVectorStore } from "../services/pinecone.js";
 
 export const SEARCH_TOOL_DEFINITION = {
-  name: "search_case_law",
+  name: "haki_legal",
   description:
     "Search for Kenyan case law and rulings. Use this to find relevant legal precedents and statutes.",
   inputSchema: {
@@ -49,7 +49,7 @@ export async function handleSearch(args) {
       ],
     };
   } catch (error) {
-    console.error("Error executing search_case_law:", error);
+    console.error("Error executing haki_legal:", error);
     return {
       content: [
         {

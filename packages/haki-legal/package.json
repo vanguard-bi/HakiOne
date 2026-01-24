@@ -1,5 +1,5 @@
 {
-  "name": "haki-mcp",
+  "name": "haki-legal",
   "version": "1.0.0",
   "description": "MCP server for Haki Legal Assistant",
   "main": "src/index.js",

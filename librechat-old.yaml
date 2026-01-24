@@ -216,7 +216,7 @@ mcpServers:
     command: node
     chatMenu: true
     args:
-      - packages/haki-mcp/src/index.js
+      - packages/haki-legal/src/index.js
 #   everything:
 #     # type: sse # type can optionally be omitted
 #     url: http://localhost:3001/sse

@@ -80,7 +80,7 @@ interface:
 
       By using the Service, you acknowledge that you have read these Terms of Service and agree to be bound by them.
 
-  endpointsMenu: true
+  endpointsMenu: false
   modelSelect: false
   parameters: true
   sidePanel: false
@@ -90,7 +90,7 @@ interface:
     share: false
     public: false
   bookmarks: true
-  multiConvo: true
+  multiConvo: false
   agents:
     use: true
     share: true
@@ -213,12 +213,12 @@ actions:
 
 # Example MCP Servers Object Structure
 mcpServers:
-  haki-mcp:
+  haki-legal:
     type: stdio
     command: node
     chatMenu: false
     args:
-      - packages/haki-mcp/src/index.js
+      - packages/haki-legal/src/index.js
 
 #   everything:
 #     # type: sse # type can optionally be omitted

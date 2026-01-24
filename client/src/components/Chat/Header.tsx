@@ -44,8 +44,10 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <img src="/assets/logo.svg" alt="HAKI One Logo" className="h-9 w-9" />
             <h1 className="text-xl font-normal">
-              <span className="text-red-500">Haki</span>
-              <span className="text-black dark:text-white"> {startupConfig?.configPath === './haki-legal.yaml' ? 'Legal' : 'One'}</span>
+              <span className="text-red-700">Haki</span>
+              {startupConfig?.configPath !== './haki-legal.yaml' && (
+                <span className="text-black dark:text-white"> One</span>
+              )}
             </h1>
           </div>
         </div>
