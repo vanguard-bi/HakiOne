@@ -1,0 +1,11 @@
+# Use repository ignore rules as baseline
+#!include:.gitignore
+
+# Keep core VCS metadata out of upload
+.git
+.gitignore
+
+# Required for package build in Cloud Build
+!packages/api/src/memory/
+!packages/api/src/memory/**
+

@@ -92,9 +92,9 @@ interface:
   bookmarks: false
   multiConvo: false
   agents:
-    use: false
-    share: false
-    public: false
+    use: true
+    share: true
+    public: true
   peoplePicker:
     users: false
     groups: false
