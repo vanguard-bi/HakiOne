@@ -10,6 +10,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 const backendPort = process.env.BACKEND_PORT && Number(process.env.BACKEND_PORT) || 3080;
 const backendURL = process.env.HOST ? `http://${process.env.HOST}:${backendPort}` : `http://localhost:${backendPort}`;
+const normalizedConfigPath = (process.env.CONFIG_PATH || '').replace(/\\/g, '/').toLowerCase();
+const pwaAppName = normalizedConfigPath.includes('haki-legal') ? 'Haki Legal' : 'Haki One';
 
 export default defineConfig(({ command }) => ({
   base: '',
@@ -58,8 +60,8 @@ export default defineConfig(({ command }) => ({
       },
       includeAssets: [],
       manifest: {
-        name: 'LibreChat',
-        short_name: 'LibreChat',
+        name: pwaAppName,
+        short_name: pwaAppName,
         display: 'standalone',
         background_color: '#000000',
         theme_color: '#009688',
