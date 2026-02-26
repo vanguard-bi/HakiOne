@@ -19,8 +19,11 @@ services:
       - RAG_PORT=${RAG_PORT:-8000}
     volumes:
       - type: bind
-        source: ./librechat.yaml
-        target: /app/librechat.yaml
+        source: ./haki-one.yaml
+        target: /app/haki-one.yaml
+      - type: bind
+        source: ./haki-legal.yaml
+        target: /app/haki-legal.yaml
       - ./images:/app/client/public/images
       - ./uploads:/app/uploads
       - ./logs:/app/api/logs
