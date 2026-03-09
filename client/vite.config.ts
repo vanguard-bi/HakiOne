@@ -8,6 +8,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
+const appName = process.env.CONFIG_PATH?.includes('legal') ? 'Haki Legal' : 'Haki One';
 const backendPort = process.env.BACKEND_PORT && Number(process.env.BACKEND_PORT) || 3080;
 const backendURL = process.env.HOST ? `http://${process.env.HOST}:${backendPort}` : `http://localhost:${backendPort}`;
 
@@ -58,8 +59,8 @@ export default defineConfig(({ command }) => ({
       },
       includeAssets: [],
       manifest: {
-        name: 'LibreChat',
-        short_name: 'LibreChat',
+        name: appName,
+        short_name: appName,
         display: 'standalone',
         background_color: '#000000',
         theme_color: '#009688',

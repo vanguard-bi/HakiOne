@@ -203,22 +203,21 @@ actions:
 # To allow internal targets like host.docker.internal, you MUST explicitly add them to allowedDomains.
 # Supports wildcards: '*.example.com' matches 'api.example.com', 'staging.example.com', etc.
 # Supports protocol/port restrictions: 'https://api.example.com:8443' restricts to specific protocol/port.
-# mcpSettings:
-#   allowedDomains:
-#     - 'host.docker.internal'    # Docker host access (required for Docker setups)
-#     - 'localhost'               # Local development
-#     - '*.example.com'           # Wildcard subdomain
-#     - 'https://secure.api.com'  # Protocol-restricted
-#     - 'http://internal:8080'    # Protocol and port restricted
+mcpSettings:
+  allowedDomains:
+    - '*.run.app'               # Google Cloud Run services
 
 # Example MCP Servers Object Structure
 mcpServers:
-  haki-legal:
-    type: stdio
-    command: node
+  haki_legal:
+    type: streamable-http
+    url: https://hakilegal-omy2ykv3tq-bq.a.run.app/mcp
     chatMenu: false
-    args:
-      - packages/haki-legal/src/index.js
+    # Stdio server (kept for local use, uncomment to enable)
+    # type: stdio
+    # command: node
+    # args:
+    #   - packages/haki-legal/src/index.js
 
 #   everything:
 #     # type: sse # type can optionally be omitted

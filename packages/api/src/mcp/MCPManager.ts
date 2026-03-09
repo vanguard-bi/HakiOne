@@ -208,6 +208,8 @@ Please follow these instructions when using tools from the respective MCP server
         requestBody,
       });
 
+      logger.info(`${logPrefix}[${toolName}] Got connection, checking if active...`);
+
       if (!(await connection.isConnected())) {
         /** May happen if getUserConnection failed silently or app connection dropped */
         throw new McpError(
@@ -215,6 +217,8 @@ Please follow these instructions when using tools from the respective MCP server
           `${logPrefix} Connection is not active. Cannot execute tool ${toolName}.`,
         );
       }
+
+      logger.info(`${logPrefix}[${toolName}] Connection active, sending tools/call request`);
 
       const rawConfig = (await MCPServersRegistry.getInstance().getServerConfig(
         serverName,
@@ -245,11 +249,16 @@ Please follow these instructions when using tools from the respective MCP server
           ...options,
         },
       );
+      const mcpResult = result as t.MCPToolCallResponse;
+      logger.info(
+        `${logPrefix}[${toolName}] MCP server responded, content blocks: ${mcpResult?.content?.length ?? 0}, isError: ${mcpResult?.isError ?? false}`,
+      );
+
       if (userId) {
         this.updateUserLastActivity(userId);
       }
       this.checkIdleConnections();
-      return formatToolContent(result as t.MCPToolCallResponse, provider);
+      return formatToolContent(mcpResult, provider);
     } catch (error) {
       // Log with context and re-throw or handle as needed
       logger.error(`${logPrefix}[${toolName}] Tool call failed`, error);

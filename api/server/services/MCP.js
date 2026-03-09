@@ -482,6 +482,11 @@ function createToolInstance({
       const customUserVars =
         config?.configurable?.userMCPAuthMap?.[`${Constants.mcp_prefix}${serverName}`];
 
+      logger.info(
+        `[MCP][${serverName}][${toolName}][User: ${userId}] Calling tool with args:`,
+        typeof toolArguments === 'object' ? JSON.stringify(toolArguments) : toolArguments,
+      );
+
       const result = await mcpManager.callTool({
         serverName,
         toolName,
@@ -502,6 +507,10 @@ function createToolInstance({
         oauthStart,
         oauthEnd,
       });
+
+      logger.info(
+        `[MCP][${serverName}][${toolName}][User: ${userId}] Tool call succeeded, result type: ${typeof result}, isArray: ${Array.isArray(result)}`,
+      );
 
       if (isAssistantsEndpoint(provider) && Array.isArray(result)) {
         return result[0];
