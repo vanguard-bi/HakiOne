@@ -81,7 +81,7 @@ export default function useTextarea({
       const currentEndpoint = conversation?.endpoint ?? '';
       const currentAgentId = conversation?.agent_id ?? '';
       const currentAssistantId = conversation?.assistant_id ?? '';
-      if (isAgent && (!currentAgentId || !agentsMap?.[currentAgentId])) {
+      if (isAgent && agentsMap !== undefined && (!currentAgentId || !agentsMap?.[currentAgentId])) {
         return localize('com_endpoint_agent_placeholder');
       } else if (
         isAssistant &&

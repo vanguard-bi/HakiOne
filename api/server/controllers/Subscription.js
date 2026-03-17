@@ -6,6 +6,18 @@ const { Subscription, Message } = require('~/db/models');
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const PAYSTACK_STANDARD_PLAN_CODE = process.env.PAYSTACK_STANDARD_PLAN_CODE;
 const FREE_MESSAGE_LIMIT = 10;
+const ENTERPRISE_DOMAINS = ['haki.africa', 'songh.ai'];
+
+/**
+ * Checks if the user's email belongs to an enterprise domain.
+ */
+function isEnterpriseDomain(email) {
+  if (!email) {
+    return false;
+  }
+  const domain = email.split('@')[1]?.toLowerCase();
+  return ENTERPRISE_DOMAINS.includes(domain);
+}
 
 /**
  * Returns start of current month as a Date
@@ -22,6 +34,16 @@ function getStartOfMonth() {
 async function getStatus(req, res) {
   try {
     const userId = req.user.id;
+    const email = req.user.email;
+
+    // Auto-provision enterprise subscription for matching domains
+    if (isEnterpriseDomain(email)) {
+      await Subscription.findOneAndUpdate(
+        { user: userId },
+        { plan: 'enterprise', status: 'active' },
+        { upsert: true, new: true },
+      );
+    }
 
     let subscription = await Subscription.findOne({ user: userId }).lean();
     if (!subscription) {
@@ -36,8 +58,14 @@ async function getStatus(req, res) {
       createdAt: { $gte: startOfMonth },
     });
 
+    const isLimitEnabled = process.env.CONFIG_PATH?.includes('haki-legal');
+
     let messagesRemaining;
-    if (subscription.plan === 'standard' && subscription.status === 'active') {
+    if (
+      !isLimitEnabled ||
+      ((subscription.plan === 'standard' || subscription.plan === 'enterprise') &&
+        subscription.status === 'active')
+    ) {
       messagesRemaining = -1; // unlimited
     } else {
       const freeRemaining = Math.max(0, FREE_MESSAGE_LIMIT - messagesUsed);
@@ -73,7 +101,7 @@ async function initializePayment(req, res) {
       return res.status(400).json({ error: 'Invalid plan. Must be "starter" or "standard".' });
     }
 
-    const callbackUrl = `${req.protocol}://${req.get('host')}/pricing?plan=${plan}`;
+    const callbackUrl = `${process.env.DOMAIN_CLIENT}/pricing?plan=${plan}`;
 
     const params = {
       email,
@@ -114,7 +142,6 @@ async function initializePayment(req, res) {
 async function verifyPayment(req, res) {
   try {
     const { reference } = req.query;
-    const userId = req.user.id;
 
     if (!reference) {
       return res.status(400).json({ error: 'Reference is required' });
@@ -128,9 +155,10 @@ async function verifyPayment(req, res) {
 
     const metadata = result.data.metadata || {};
     const plan = metadata.plan;
+    const userId = metadata.userId;
 
-    if (metadata.userId && metadata.userId !== userId) {
-      return res.status(403).json({ error: 'Payment does not belong to this user' });
+    if (!userId) {
+      return res.status(400).json({ error: 'Payment metadata missing userId' });
     }
 
     if (plan === 'starter') {

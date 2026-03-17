@@ -45,7 +45,9 @@ export default function Header() {
             <img src="/assets/logo.svg" alt="HAKI One Logo" className="h-9 w-9" />
             <h1 className="text-xl font-normal">
               <span className="text-red-700">Haki</span>
-              {startupConfig?.configPath !== './haki-legal.yaml' && (
+              {startupConfig?.configPath?.includes('haki-legal') ? (
+                <span className="text-black dark:text-white"> Legal</span>
+              ) : (
                 <span className="text-black dark:text-white"> One</span>
               )}
             </h1>

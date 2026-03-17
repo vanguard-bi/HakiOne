@@ -10,7 +10,8 @@ const PricingPage = () => {
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, user } = useAuthContext();
+  const isAuthLoading = !isAuthenticated && user == null;
 
   const { data: subscription, refetch: refetchSubscription } = useGetSubscription({
     enabled: isAuthenticated,
@@ -44,7 +45,7 @@ const PricingPage = () => {
 
   const handleSelectPlan = async (planId: string) => {
     if (!isAuthenticated) {
-      navigate('/register');
+      navigate('/login');
       return;
     }
 
@@ -134,7 +135,7 @@ const PricingPage = () => {
 
         {/* Plan Cards */}
         <div className="grid gap-6 md:grid-cols-3">
-          {planList.map((plan) => {
+          {planList.filter((plan) => plan.id !== 'enterprise').map((plan) => {
             const isCurrent = isAuthenticated && currentPlan === plan.id;
             const isStandard = plan.id === 'standard';
 
@@ -196,7 +197,7 @@ const PricingPage = () => {
                 <button
                   onClick={() => handleSelectPlan(plan.id)}
                   disabled={
-                    (isCurrent && plan.id !== 'starter') || initPayment.isLoading || verifying
+                    (isCurrent && plan.id !== 'starter') || initPayment.isLoading || verifying || isAuthLoading
                   }
                   className={`mt-6 w-full rounded-lg px-4 py-2.5 text-sm font-medium transition-colors ${
                     isCurrent && plan.id !== 'starter'

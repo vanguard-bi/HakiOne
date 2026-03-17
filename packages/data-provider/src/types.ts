@@ -656,7 +656,7 @@ export type TBalanceResponse = {
 };
 
 export type TSubscriptionResponse = {
-  plan: 'free' | 'starter' | 'standard';
+  plan: 'free' | 'starter' | 'standard' | 'enterprise';
   status: 'active' | 'cancelled' | 'expired' | 'past_due';
   messageCredits: number;
   messagesUsed: number;

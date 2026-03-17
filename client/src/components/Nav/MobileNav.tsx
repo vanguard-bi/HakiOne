@@ -21,7 +21,7 @@ export default function MobileNav({
   const conversation = useRecoilValue(store.conversationByIndex(0));
   const { title = 'New Chat' } = conversation || {};
   const { data: startupConfig } = useGetStartupConfig();
-  const suffix = startupConfig?.configPath === './haki-legal.yaml' ? '' : 'One';
+  const suffix = startupConfig?.configPath?.includes('haki-legal') ? 'Legal' : 'One';
 
   return (
     <div className="bg-token-main-surface-primary sticky top-0 z-10 flex min-h-[40px] items-center justify-center bg-presentation pl-1 dark:text-white md:hidden">

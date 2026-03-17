@@ -679,7 +679,9 @@ class BaseClient {
       }
     }
 
-    await checkMessageLimit({ req: this.options.req, res: this.options.res });
+    if (process.env.CONFIG_PATH && process.env.CONFIG_PATH.endsWith('haki-legal.yaml')) {
+      await checkMessageLimit({ req: this.options.req, res: this.options.res });
+    }
 
     const balanceConfig = getBalanceConfig(appConfig);
     if (

@@ -92,7 +92,7 @@ interface:
   bookmarks: false
   multiConvo: false
   agents:
-    use: false
+    use: true
     share: false
     public: false
   peoplePicker:
@@ -259,6 +259,11 @@ endpoints:
   #   retrievalModels: ["gpt-4-turbo-preview"]
   #   # (optional) Assistant Capabilities available to all users. Omit the ones you wish to exclude. Defaults to list below.
   #   capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
+  agents:
+    disableBuilder: false
+    recursionLimit: 50
+    maxRecursionLimit: 100
+    capabilities: ["execute_code", "file_search", "actions", "tools"]
   # agents:
   #   # (optional) Default recursion depth for agents, defaults to 25
   #   recursionLimit: 50

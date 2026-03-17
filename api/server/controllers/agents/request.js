@@ -59,7 +59,9 @@ const ResumableAgentController = async (req, res, next, initializeClient, addTit
     return res.status(429).json(violationInfo);
   }
 
-  await checkMessageLimit({ req, res });
+  if (process.env.CONFIG_PATH && process.env.CONFIG_PATH.endsWith('haki-legal.yaml')) {
+    await checkMessageLimit({ req, res });
+  }
 
   // Generate conversationId upfront if not provided - streamId === conversationId always
   // Treat "new" as a placeholder that needs a real UUID (frontend may send "new" for new convos)

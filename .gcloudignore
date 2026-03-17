@@ -1,0 +1,11 @@
+.gcloudignore
+# If you would like to upload your .git directory, .gitignore file or files
+# from your .gitignore file, remove the corresponding line
+# below:
+.gitignore
+#!include:.gitignore
+
+# Un-exclude source files that are matched by root-level gitignore patterns
+# intended for other tools (e.g. memory/ was added for Claude Flow)
+!packages/api/src/memory/
+!packages/api/src/memory/**

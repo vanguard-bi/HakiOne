@@ -12,7 +12,7 @@ const subscriptionSchema = new Schema<t.ISubscription>(
     },
     plan: {
       type: String,
-      enum: ['free', 'starter', 'standard'],
+      enum: ['free', 'starter', 'standard', 'enterprise'],
       default: 'free',
     },
     status: {
