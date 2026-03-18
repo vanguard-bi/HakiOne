@@ -12,7 +12,8 @@ export default function useSubmitMessage() {
   const { user, isAuthenticated } = useAuthContext();
   const methods = useChatFormContext();
   const { conversation: addedConvo } = useAddedChatContext();
-  const { ask, index, getMessages, setMessages, latestMessage } = useChatContext();
+  const { ask, index, getMessages, setMessages } = useChatContext();
+  const latestMessage = useRecoilValue(store.latestMessageFamily(index));
   const { data: subscription } = useGetSubscription({
     enabled: isAuthenticated,
   });

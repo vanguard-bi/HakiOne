@@ -65,6 +65,8 @@ export enum QueryKeys {
   /* Subscriptions */
   subscription = 'subscription',
   subscriptionPlans = 'subscriptionPlans',
+  /* Agent API Keys */
+  agentApiKeys = 'agentApiKeys',
 }
 
 // Dynamic query keys that require parameters
@@ -73,6 +75,8 @@ export const DynamicQueryKeys = {
 } as const;
 
 export enum MutationKeys {
+  createAgentApiKey = 'createAgentApiKey',
+  deleteAgentApiKey = 'deleteAgentApiKey',
   fileUpload = 'fileUpload',
   fileDelete = 'fileDelete',
   updatePreset = 'updatePreset',
