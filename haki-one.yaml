@@ -93,10 +93,10 @@ interface:
   multiConvo: false
   agents:
     use: true
-    share: false
+    share: true
     public: false
   peoplePicker:
-    users: false
+    users: true
     groups: false
     roles: false
   marketplace:
@@ -263,7 +263,7 @@ endpoints:
     disableBuilder: false
     recursionLimit: 50
     maxRecursionLimit: 100
-    capabilities: ["execute_code", "file_search", "actions", "tools"]
+    capabilities: ["execute_code", "file_search", "actions", "tools", "artifacts"]
   # agents:
   #   # (optional) Default recursion depth for agents, defaults to 25
   #   recursionLimit: 50
